@@ -3,6 +3,15 @@ FROM python:3.8-slim
 RUN apt-get update && apt-get -y install curl
 RUN pip install --no-cache-dir "uvicorn[standard]" gunicorn fastapi
 
+COPY ./start.sh /start.sh
+RUN chmod +x /start.sh
+
+COPY ./gunicorn_conf.py /gunicorn_conf.py
+
+COPY ./start-reload.sh /start-reload.sh
+RUN chmod +x /start-reload.sh
+
+COPY ./app /app
 WORKDIR /app/
 
 # Install Poetry
