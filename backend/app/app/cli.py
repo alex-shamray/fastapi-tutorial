@@ -39,7 +39,7 @@ def changepassword(
     db = SessionLocal()
     user = crud.user.get_by_email(db, email=email)
     if not user:
-        typer.echo("user '%s' does not exist" % email)
+        typer.echo("user '%s' does not exist" % email, err=True)
         raise typer.Exit(code=1)
 
     typer.echo("Changing password for user '%s'" % user)
