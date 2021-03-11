@@ -10,6 +10,7 @@ def createsuperuser():
     """
     pass
 
+
 @app.command()
 def changepassword(email: str = ""):
     """
