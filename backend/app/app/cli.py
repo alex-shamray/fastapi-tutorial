@@ -20,13 +20,6 @@ def createsuperuser(
     typer.echo(email)
 
 
-def _get_pass(prompt=''):
-    p = typer.prompt(prompt)
-    if not p:
-        raise typer.Abort()
-    return p
-
-
 @app.command()
 def changepassword(
     email: str = typer.Argument(
