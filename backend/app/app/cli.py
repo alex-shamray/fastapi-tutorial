@@ -39,7 +39,7 @@ def changepassword(
     db = SessionLocal()
     user = crud.user.get_by_email(db, email=email)
     if not user:
-        typer.echo("user '%s' does not exist" % email, err=True)
+        typer.secho("user '%s' does not exist" % email, fg=typer.colors.RED, err=True)
         raise typer.Exit(code=1)
 
     typer.echo("Changing password for user '%s'" % user)
@@ -59,13 +59,13 @@ def changepassword(
         try:
             validate_password(p2, user)
         except ValidationError as err:
-            typer.echo('\n'.join(err.messages), err=True)
+            typer.secho('\n'.join(err.messages), fg=typer.colors.RED, err=True)
             count += 1
         else:
             password_validated = True
 
     if count == MAX_TRIES:
-        typer.echo("Aborting password change for user '%s' after %s attempts" % (user, count), err=True)
+        typer.secho("Aborting password change for user '%s' after %s attempts" % (user, count), fg=typer.colors.RED, err=True)
         raise typer.Exit(code=1)
 
     crud.user.update(db, db_obj=user, obj_in={'password': p1})
