@@ -20,7 +20,7 @@ def createsuperuser(
     typer.echo(email)
 
 
-def _get_pass(prompt="Password"):
+def _get_pass(prompt=''):
     p = typer.prompt(prompt)
     if not p:
         raise typer.Abort()
@@ -31,7 +31,10 @@ def _get_pass(prompt="Password"):
 def changepassword(
     email: str = typer.Argument(
         ..., help="Email to change password for."
-    )
+    ),
+    password: str = typer.Option(
+        ..., prompt=True, confirmation_prompt=True, hide_input=True
+    ),
 ):
     """
     Change a user's password for app.models.user.User.
@@ -44,31 +47,13 @@ def changepassword(
 
     typer.echo("Changing password for user '%s'" % user)
 
-    MAX_TRIES = 3
-    count = 0
-    p1, p2 = 1, 2  # To make them initially mismatch.
-    password_validated = False
-    while (p1 != p2 or not password_validated) and count < MAX_TRIES:
-        p1 = _get_pass()
-        p2 = _get_pass("Password (again)")
-        if p1 != p2:
-            typer.echo('Passwords do not match. Please try again.')
-            count += 1
-            # Don't validate passwords that don't match.
-            continue
-        try:
-            validate_password(p2, user)
-        except ValidationError as err:
-            typer.secho('\n'.join(err.messages), fg=typer.colors.RED, err=True)
-            count += 1
-        else:
-            password_validated = True
-
-    if count == MAX_TRIES:
-        typer.secho("Aborting password change for user '%s' after %s attempts" % (user, count), fg=typer.colors.RED, err=True)
+    try:
+        validate_password(password, user)
+    except ValidationError as err:
+        typer.secho('\n'.join(err.messages), fg=typer.colors.RED, err=True)
         raise typer.Exit(code=1)
 
-    crud.user.update(db, db_obj=user, obj_in={'password': p1})
+    crud.user.update(db, db_obj=user, obj_in={'password': password})
 
     typer.echo("Password changed successfully for user '%s'" % user)
 
