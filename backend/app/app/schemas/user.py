@@ -31,9 +31,7 @@ class UserBase(BaseModel):
             with open(password_list_path) as f:
                 passwords = {x.strip() for x in f}
         if v.lower().strip() in passwords:
-            raise ValueError(
-                "This password is too common.",
-            )
+            raise ValueError('This password is too common.')
         return v
 
 
