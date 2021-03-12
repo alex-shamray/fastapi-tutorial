@@ -32,7 +32,7 @@ class UserBase(BaseModel):
             for value_part in value_parts:
                 if SequenceMatcher(a=v.lower(), b=value_part.lower()).quick_ratio() >= max_similarity:
                     raise ValueError(
-                        f"The password is too similar to the f{attribute_name}.",
+                        f'The password is too similar to the {attribute_name}.',
                     )
         return v
 
