@@ -1,4 +1,5 @@
 import secrets
+from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
 
 from pydantic import AnyHttpUrl, BaseSettings, EmailStr, HttpUrl, PostgresDsn, validator
@@ -81,6 +82,8 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER: EmailStr
     FIRST_SUPERUSER_PASSWORD: str
     USERS_OPEN_REGISTRATION: bool = False
+    PASSWORD_MIN_LENGTH = 8
+    DEFAULT_PASSWORD_LIST_PATH = Path(__file__).resolve().parent.parent / 'schemas' / 'common-passwords.txt.gz'
 
     class Config:
         case_sensitive = True
