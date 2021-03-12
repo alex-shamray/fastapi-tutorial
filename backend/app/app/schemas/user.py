@@ -1,5 +1,6 @@
 import gzip
-from typing import Optional
+from difflib import SequenceMatcher
+from typing import Optional, re
 
 from pydantic import BaseModel, EmailStr, validator
 
@@ -22,6 +23,20 @@ class UserBase(BaseModel):
         return v
 
     @validator('password', check_fields=False)
+    def password_user_attribute_similarity(cls, v, values, **kwargs):
+        max_similarity = 0.7
+        for attribute_name, value in values.items():
+            if not value or not isinstance(value, str):
+                continue
+            value_parts = re.split(r'\W+', value) + [value]
+            for value_part in value_parts:
+                if SequenceMatcher(a=v.lower(), b=value_part.lower()).quick_ratio() >= max_similarity:
+                    raise ValueError(
+                        f"The password is too similar to the f{attribute_name}.",
+                    )
+        return v
+
+    @validator('password', check_fields=False)
     def password_common(cls, v):
         password_list_path = settings.DEFAULT_PASSWORD_LIST_PATH
         try:
@@ -32,6 +47,12 @@ class UserBase(BaseModel):
                 passwords = {x.strip() for x in f}
         if v.lower().strip() in passwords:
             raise ValueError('This password is too common.')
+        return v
+
+    @validator('password', check_fields=False)
+    def password_numeric(cls, v):
+        if v.isdigit():
+            raise ValueError('This password is entirely numeric.')
         return v
 
 
