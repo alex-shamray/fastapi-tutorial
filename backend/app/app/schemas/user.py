@@ -14,10 +14,10 @@ class UserBase(BaseModel):
     full_name: Optional[str] = None
 
     @validator('password', check_fields=False)
-    def password_minimum_length(cls, v, values, **kwargs):
+    def password_minimum_length(cls, v):
         if len(v) < settings.PASSWORD_MIN_LENGTH:
             raise ValueError(
-                f"This password is too short. It must contain at least {settings.PASSWORD_MIN_LENGTH} characters."
+                f"This password is too short. It must contain at least {settings.PASSWORD_MIN_LENGTH} characters.",
             )
         return v
 
