@@ -22,7 +22,7 @@ class UserBase(BaseModel):
         return v
 
     @validator('password', check_fields=False)
-    def common_password(cls, v):
+    def password_common(cls, v):
         password_list_path = settings.DEFAULT_PASSWORD_LIST_PATH
         try:
             with gzip.open(password_list_path, 'rt', encoding='utf-8') as f:
