@@ -1,6 +1,7 @@
 import gzip
+import re
 from difflib import SequenceMatcher
-from typing import Optional, re
+from typing import Optional
 
 from pydantic import BaseModel, EmailStr, validator
 
