@@ -1,8 +1,9 @@
 # Stage 0, "build-stage", based on Node.js, to build and compile the frontend
-FROM tiangolo/node-frontend:10 as build-stage
+FROM node:15-alpine3.10 as build-stage
 
 WORKDIR /app
 
+COPY ./nginx.conf /nginx.conf
 COPY package*.json /app/
 
 RUN npm install
