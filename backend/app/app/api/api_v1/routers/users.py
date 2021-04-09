@@ -1,6 +1,6 @@
 from typing import Any, List
 
-from fastapi import APIRouter, Body, Depends, HTTPException
+from fastapi import APIRouter, Body, Depends, HTTPException, status
 from fastapi.encoders import jsonable_encoder
 from pydantic.networks import EmailStr
 from sqlalchemy.orm import Session
@@ -26,7 +26,12 @@ def read_users(
     return users
 
 
-@router.post("/", response_model=schemas.User, dependencies=[Depends(get_current_active_superuser)])
+@router.post(
+    "/",
+    response_model=schemas.User,
+    status_code=status.HTTP_201_CREATED,
+    dependencies=[Depends(get_current_active_superuser)],
+)
 def create_user(
     *,
     db: Session = Depends(get_db),
