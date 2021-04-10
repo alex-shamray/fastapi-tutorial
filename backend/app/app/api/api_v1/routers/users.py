@@ -53,7 +53,7 @@ def create_user(
         send_new_account_email(
             email_to=user_in.email, username=user_in.email, password=user_in.password
         )
-    response.headers["Location"] = request.url_for("read_user_by_id", **{"user_id": user.id})
+    response.headers["Location"] = request.url_for("read_user_by_id", user_id=user.id)
     return user
 
 
