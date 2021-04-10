@@ -1,6 +1,6 @@
 from typing import Any, List
 
-from fastapi import APIRouter, Body, Depends, HTTPException, status
+from fastapi import APIRouter, Body, Depends, HTTPException, Request, Response, status
 from fastapi.encoders import jsonable_encoder
 from pydantic.networks import EmailStr
 from sqlalchemy.orm import Session
@@ -36,6 +36,8 @@ def create_user(
     *,
     db: Session = Depends(get_db),
     user_in: schemas.UserCreate,
+    request: Request,
+    response: Response,
 ) -> Any:
     """
     Create new user.
@@ -51,6 +53,7 @@ def create_user(
         send_new_account_email(
             email_to=user_in.email, username=user_in.email, password=user_in.password
         )
+    response.headers["Location"] = request.url_for("read_user_by_id", **{"user_id": user.id})
     return user
 
 
@@ -169,9 +172,6 @@ def delete_user(
     """
     user = crud.user.get(db, id=user_id)
     if not user:
-        raise HTTPException(
-            status_code=404,
-            detail="The user with this username does not exist in the system",
-        )
+        raise HTTPException(status_code=404, detail="User not found")
     user = crud.user.remove(db, id=user_id)
     return user
