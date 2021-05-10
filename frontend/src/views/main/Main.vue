@@ -79,7 +79,7 @@
         </v-list>
       </v-layout>
     </v-navigation-drawer>
-    <v-toolbar dark color="primary" app>
+    <v-app-bar dark color="primary" app>
       <v-app-bar-nav-icon @click.stop="switchShowDrawer"></v-app-bar-nav-icon>
       <v-toolbar-title v-text="appName"></v-toolbar-title>
       <v-spacer></v-spacer>
@@ -106,10 +106,10 @@
           </v-list-item>
         </v-list>
       </v-menu>
-    </v-toolbar>
-    <v-content>
+    </v-app-bar>
+    <v-main>
       <router-view></router-view>
-    </v-content>
+    </v-main>
     <v-footer class="pa-3" fixed app>
       <v-spacer></v-spacer>
       <span>&copy; {{appName}}</span>
