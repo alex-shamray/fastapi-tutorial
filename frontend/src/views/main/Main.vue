@@ -6,7 +6,7 @@
           <v-subheader>Main menu</v-subheader>
           <v-list-item to="/main/dashboard">
             <v-list-item-action>
-              <v-icon>web</v-icon>
+              <v-icon>mdi-web</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>Dashboard</v-list-item-title>
@@ -14,7 +14,7 @@
           </v-list-item>
           <v-list-item to="/main/profile/view">
             <v-list-item-action>
-              <v-icon>person</v-icon>
+              <v-icon>mdi-account</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>Profile</v-list-item-title>
@@ -22,7 +22,7 @@
           </v-list-item>
           <v-list-item to="/main/profile/edit">
             <v-list-item-action>
-              <v-icon>edit</v-icon>
+              <v-icon>mdi-account-edit</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>Edit Profile</v-list-item-title>
@@ -30,7 +30,7 @@
           </v-list-item>
           <v-list-item to="/main/profile/password">
             <v-list-item-action>
-              <v-icon>vpn_key</v-icon>
+              <v-icon>mdi-account-key</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>Change Password</v-list-item-title>
@@ -42,7 +42,7 @@
           <v-subheader>Admin</v-subheader>
           <v-list-item to="/main/admin/users/all">
             <v-list-item-action>
-              <v-icon>group</v-icon>
+              <v-icon>mdi-account-group</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>Manage Users</v-list-item-title>
@@ -50,7 +50,7 @@
           </v-list-item>
           <v-list-item to="/main/admin/users/create">
             <v-list-item-action>
-              <v-icon>person_add</v-icon>
+              <v-icon>mdi-account-plus</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>Create User</v-list-item-title>
@@ -61,7 +61,7 @@
         <v-list>
           <v-list-item @click="logout">
             <v-list-item-action>
-              <v-icon>close</v-icon>
+              <v-icon>mdi-close</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>Logout</v-list-item-title>
@@ -70,7 +70,7 @@
           <v-divider></v-divider>
           <v-list-item @click="switchMiniDrawer">
             <v-list-item-action>
-              <v-icon v-html="miniDrawer ? 'chevron_right' : 'chevron_left'"></v-icon>
+              <v-icon v-html="miniDrawer ? 'mdi-chevron-right' : 'mdi-chevron-left'"></v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>Collapse</v-list-item-title>
@@ -85,7 +85,7 @@
       <v-spacer></v-spacer>
       <v-menu bottom left offset-y>
         <v-btn slot="activator" icon>
-          <v-icon>more_vert</v-icon>
+          <v-icon>mdi-dots-vertical</v-icon>
         </v-btn>
         <v-list>
           <v-list-item to="/main/profile">
