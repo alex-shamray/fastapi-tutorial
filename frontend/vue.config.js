@@ -32,4 +32,7 @@ module.exports = {
         }
       }));
   },
+  transpileDependencies: [
+    'vuetify'
+  ]
 }
