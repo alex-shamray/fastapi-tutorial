@@ -6,7 +6,7 @@
           <v-subheader>Main menu</v-subheader>
           <v-list-item to="/main/dashboard">
             <v-list-item-action>
-              <v-icon>mdi-web</v-icon>
+              <v-icon>mdi-view-dashboard</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>Dashboard</v-list-item-title>
