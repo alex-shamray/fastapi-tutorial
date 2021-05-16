@@ -2,7 +2,7 @@ from datetime import timedelta
 from typing import Any
 
 from fastapi import APIRouter, Body, Depends, HTTPException
-from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordRequestFormStrict
 from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
@@ -21,7 +21,7 @@ router = APIRouter()
 
 @router.post("/login/access-token", response_model=schemas.Token)
 def login_access_token(
-    db: Session = Depends(deps.get_db), form_data: OAuth2PasswordRequestForm = Depends()
+    db: Session = Depends(deps.get_db), form_data: OAuth2PasswordRequestFormStrict = Depends()
 ) -> Any:
     """
     OAuth2 compatible token login, get an access token for future requests
