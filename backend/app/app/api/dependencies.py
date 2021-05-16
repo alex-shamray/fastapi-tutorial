@@ -1,6 +1,6 @@
 from typing import Generator
 
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, Security, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt
 from pydantic import ValidationError
@@ -47,7 +47,7 @@ def get_current_user(
 
 
 def get_current_active_user(
-    current_user: models.User = Depends(get_current_user),
+    current_user: models.User = Security(get_current_user, scopes=["me"]),
 ) -> models.User:
     if not crud.user.is_active(current_user):
         raise HTTPException(status_code=400, detail="Inactive user")
