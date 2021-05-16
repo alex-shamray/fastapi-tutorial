@@ -14,7 +14,7 @@ def read_items(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
     limit: int = 100,
-    current_user: models.User = Depends(deps.get_current_active_user, scopes=["items:read"]),
+    current_user: models.User = Security(deps.get_current_active_user, scopes=["items:read"]),
 ) -> Any:
     """
     Retrieve items.
@@ -33,7 +33,7 @@ def create_item(
     *,
     db: Session = Depends(deps.get_db),
     item_in: schemas.ItemCreate,
-    current_user: models.User = Depends(deps.get_current_active_user, scopes=["items:create"]),
+    current_user: models.User = Security(deps.get_current_active_user, scopes=["items:create"]),
 ) -> Any:
     """
     Create new item.
@@ -48,7 +48,7 @@ def update_item(
     db: Session = Depends(deps.get_db),
     id: int,
     item_in: schemas.ItemUpdate,
-    current_user: models.User = Depends(deps.get_current_active_user, scopes=["items:update"]),
+    current_user: models.User = Security(deps.get_current_active_user, scopes=["items:update"]),
 ) -> Any:
     """
     Update an item.
