@@ -45,7 +45,7 @@ def get_current_user(
         if user_id is None:
             raise credentials_exception
         token_scopes = payload.get("scopes", [])
-        token_data = schemas.TokenPayload(scopes=token_scopes, **payload)
+        token_data = schemas.TokenPayload(scopes=token_scopes, user_id=user_id)
     except (jwt.JWTError, ValidationError):
         raise credentials_exception
     user = crud.user.get(db, id=token_data.user_id)
