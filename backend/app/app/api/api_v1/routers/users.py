@@ -7,8 +7,8 @@ from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
 from app.core.config import settings
+from app.dependencies import get_db, get_current_active_user, get_current_active_superuser
 from app.utils import send_new_account_email
-from ...dependencies import get_db, get_current_active_user, get_current_active_superuser
 
 router = APIRouter()
 
