@@ -15,6 +15,8 @@ export const api = {
     const params = new URLSearchParams();
     params.append('username', username);
     params.append('password', password);
+    params.append('grant_type', 'password');
+    params.append('scope', 'me');
 
     return axios.post(`${apiUrl}/api/v1/login/access-token`, params);
   },
