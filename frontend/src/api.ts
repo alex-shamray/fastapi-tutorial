@@ -16,7 +16,7 @@ export const api = {
     params.append('username', username);
     params.append('password', password);
     params.append('grant_type', 'password');
-    params.append('scope', 'me');
+    params.append('scope', 'me items:read');
 
     return axios.post(`${apiUrl}/api/v1/login/access-token`, params);
   },
