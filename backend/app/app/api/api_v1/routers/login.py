@@ -1,8 +1,10 @@
 from datetime import timedelta
 from typing import Any
 
-from fastapi import APIRouter, Body, Depends, HTTPException
+from fastapi import APIRouter, Body, Depends, HTTPException, Request
+from fastapi.responses import HTMLResponse
 from fastapi.security import OAuth2PasswordRequestFormStrict
+from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
@@ -17,6 +19,7 @@ from app.utils import (
 )
 
 router = APIRouter()
+templates = Jinja2Templates(directory="templates")
 
 
 @router.post("/login/access-token", response_model=schemas.Token)
@@ -94,3 +97,8 @@ def reset_password(
     db.add(user)
     db.commit()
     return {"msg": "Password updated successfully"}
+
+
+@router.get("/login/oauth/authorize", response_class=HTMLResponse)
+def read_authorization_form(request: Request) -> Any:
+    return templates.TemplateResponse("authorization_form.html", {"request": request})
