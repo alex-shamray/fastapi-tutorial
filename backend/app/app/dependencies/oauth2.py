@@ -20,7 +20,7 @@ oauth2_authorization_code_scheme = OAuth2AuthorizationCodeBearer(
     scopes={"me": "Read information about the current user.", "items:read": "Read items."},
 )
 
-oauth2_scheme = oauth2_authorization_code_scheme
+oauth2_scheme = oauth2_password_scheme
 
 
 def get_current_user(
