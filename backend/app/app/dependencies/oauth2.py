@@ -1,5 +1,5 @@
 from fastapi import Depends, HTTPException, Security, status
-from fastapi.security import OAuth2PasswordBearer, SecurityScopes
+from fastapi.security import OAuth2PasswordBearer, OAuth2AuthorizationCodeBearer, SecurityScopes
 from jose import jwt
 from pydantic import ValidationError
 from sqlalchemy.orm import Session
@@ -9,10 +9,18 @@ from app.core import security
 from app.core.config import settings
 from .db import get_db
 
-oauth2_scheme = OAuth2PasswordBearer(
+oauth2_password_scheme = OAuth2PasswordBearer(
     tokenUrl=f"{settings.API_V1_STR}/login/access-token",
     scopes={"me": "Read information about the current user.", "items:read": "Read items."},
 )
+
+oauth2_authorization_code_scheme = OAuth2AuthorizationCodeBearer(
+    authorizationUrl=f"{settings.API_V1_STR}/login/oauth/authorize",
+    tokenUrl=f"{settings.API_V1_STR}/login/access-token",
+    scopes={"me": "Read information about the current user.", "items:read": "Read items."},
+)
+
+oauth2_scheme = oauth2_authorization_code_scheme
 
 
 def get_current_user(
