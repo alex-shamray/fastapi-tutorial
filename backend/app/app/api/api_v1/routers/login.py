@@ -109,14 +109,15 @@ async def read_authorization_form(
 
 @router.post("/login/oauth/authorize", response_class=HTMLResponse)
 async def post_authorization_form(
-    request: Request,
+    *,
+    db: Session = Depends(deps.get_db),
     response_type: str,
     client_id: str,
     redirect_uri: str,
     state: str,
-    db: Session = Depends(deps.get_db),
     username: str = Form(...),
     password: str = Form(...),
+    request: Request,
 ) -> Any:
     user = crud.user.authenticate(
         db, email=username, password=password
