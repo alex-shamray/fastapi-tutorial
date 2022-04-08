@@ -102,11 +102,7 @@ def reset_password(
 
 @router.get("/login/oauth/authorize", response_class=HTMLResponse)
 async def read_authorization_form(
-    request: Request,
-    response_type: str,
-    client_id: str,
-    redirect_uri: str,
-    state: str,
+    request: Request, response_type: str, client_id: str, redirect_uri: str, state: str
 ) -> Any:
     return templates.TemplateResponse("authorization_form.html", {"request": request})
 
