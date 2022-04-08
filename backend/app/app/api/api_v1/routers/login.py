@@ -1,8 +1,9 @@
 from datetime import timedelta
 from typing import Any
 
-from fastapi import APIRouter, Body, Depends, HTTPException, Request
+from fastapi import APIRouter, Form, Body, Depends, HTTPException, Request
 from fastapi.responses import HTMLResponse
+from fastapi.responses import RedirectResponse
 from fastapi.security import OAuth2PasswordRequestFormStrict
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
@@ -100,5 +101,30 @@ def reset_password(
 
 
 @router.get("/login/oauth/authorize", response_class=HTMLResponse)
-async def read_authorization_form(request: Request) -> Any:
+async def read_authorization_form(
+    request: Request,
+    response_type: str,
+    client_id: str,
+    redirect_uri: str,
+    state: str,
+) -> Any:
     return templates.TemplateResponse("authorization_form.html", {"request": request})
+
+
+@router.post("/login/oauth/authorize", response_class=HTMLResponse)
+async def post_authorization_form(
+    request: Request,
+    response_type: str,
+    client_id: str,
+    redirect_uri: str,
+    state: str,
+    db: Session = Depends(deps.get_db),
+    username: str = Form(...),
+    password: str = Form(...),
+) -> Any:
+    user = crud.user.authenticate(
+        db, email=username, password=password
+    )
+    if not user:
+        return templates.TemplateResponse("authorization_form.html", {"request": request, "user": user})
+    return RedirectResponse(f"{redirect_uri}?{response_type}=&state={state}")
