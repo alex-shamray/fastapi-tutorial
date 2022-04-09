@@ -12,12 +12,14 @@ from .db import get_db
 oauth2_password_scheme = OAuth2PasswordBearer(
     tokenUrl=f"{settings.API_V1_STR}/login/access-token",
     scopes={"me": "Read information about the current user.", "items:read": "Read items."},
+    auto_error=False,
 )
 
 oauth2_authorization_code_scheme = OAuth2AuthorizationCodeBearer(
     authorizationUrl=f"{settings.API_V1_STR}/login/oauth/authorize",
     tokenUrl=f"{settings.API_V1_STR}/login/access-token",
     scopes={"me": "Read information about the current user.", "items:read": "Read items."},
+    auto_error=False,
 )
 
 oauth2_scheme = oauth2_password_scheme

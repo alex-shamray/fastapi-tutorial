@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from app import crud, models
 from .db import get_db
 
-auth_scheme = HTTPBasic()
+auth_scheme = HTTPBasic(auto_error=False)
 
 
 def get_current_user(
