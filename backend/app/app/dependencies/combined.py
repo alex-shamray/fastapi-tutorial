@@ -1,12 +1,10 @@
 from fastapi import Depends, HTTPException, Security, status
-from fastapi.security import HTTPBasicCredentials
-from fastapi.security import SecurityScopes
+from fastapi.security import SecurityScopes, HTTPBasicCredentials
 from jose import jwt
 from pydantic import ValidationError
 from sqlalchemy.orm import Session
 
-from app import crud, models
-from app import schemas
+from app import crud, models, schemas
 from app.core import security
 from app.core.config import settings
 from .basic_auth import auth_scheme
