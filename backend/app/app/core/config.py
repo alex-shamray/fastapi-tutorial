@@ -2,7 +2,7 @@ import secrets
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
 
-from pydantic import AnyHttpUrl, BaseSettings, EmailStr, HttpUrl, PostgresDsn, validator
+from pydantic import AnyHttpUrl, BaseSettings, EmailStr, HttpUrl, PostgresDsn, AmqpDsn, validator
 
 
 class Settings(BaseSettings):
@@ -84,6 +84,18 @@ class Settings(BaseSettings):
     USERS_OPEN_REGISTRATION: bool = False
     PASSWORD_MIN_LENGTH = 8
     DEFAULT_PASSWORD_LIST_PATH = Path(__file__).resolve().parent.parent / 'schemas' / 'common-passwords.txt.gz'
+
+    RABBITMQ_HOST: str
+    RABBITMQ_PORT: str
+    RABBITMQ_USER: str
+    RABBITMQ_PASSWORD: str
+    AMQP_URI: Optional[AmqpDsn] = None
+
+    @validator("AMQP_URI", pre=True)
+    def assemble_amqp_uri(cls, v: Optional[str], values: Dict[str, Any]) -> Any:
+        if isinstance(v, str):
+            return v
+        return f'amqp://{values.get("RABBITMQ_USER")}:{values.get("RABBITMQ_PASSWORD")}@{values.get("RABBITMQ_HOST")}:{values.get("RABBITMQ_PORT")}/'
 
     class Config:
         case_sensitive = True
