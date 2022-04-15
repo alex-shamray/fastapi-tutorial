@@ -95,7 +95,13 @@ class Settings(BaseSettings):
     def assemble_amqp_uri(cls, v: Optional[str], values: Dict[str, Any]) -> Any:
         if isinstance(v, str):
             return v
-        return f'amqp://{values.get("RABBITMQ_USER")}:{values.get("RABBITMQ_PASSWORD")}@{values.get("RABBITMQ_HOST")}:{values.get("RABBITMQ_PORT")}/'
+        return AmqpDsn.build(
+            scheme="amqp",
+            user=values.get("RABBITMQ_USER"),
+            password=values.get("RABBITMQ_PASSWORD"),
+            host=values.get("RABBITMQ_HOST"),
+            port=values.get("RABBITMQ_PORT"),
+        )
 
     class Config:
         case_sensitive = True
