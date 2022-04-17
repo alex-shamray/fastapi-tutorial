@@ -1,3 +1,3 @@
 #!/bin/bash
 
-nameko run --config config.yml services
+nameko run --config ./config.yml services
