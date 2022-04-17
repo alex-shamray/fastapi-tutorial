@@ -88,6 +88,16 @@ services:
       - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-http.rule=PathPrefix(`/`)
       - traefik.http.services.${STACK_NAME?Variable not set}-frontend.loadbalancer.server.port=8080
 
+  services:
+    volumes:
+      - ./services:/app
+    depends_on:
+      - queue
+    env_file:
+      - .env
+    build:
+      context: ./services
+
 networks:
   traefik-public:
     # For local dev, don't expect an external Traefik network
