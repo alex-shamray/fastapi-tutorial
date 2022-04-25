@@ -1,5 +1,7 @@
+import sentry_sdk
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 from starlette.middleware.cors import CORSMiddleware
 
 from app.api.api_v1.api import api_router
@@ -21,3 +23,7 @@ if settings.BACKEND_CORS_ORIGINS:
 
 app.include_router(api_router, prefix=settings.API_V1_STR)
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# https://docs.sentry.io/platforms/python/guides/asgi/
+sentry_sdk.init(dsn=settings.SENTRY_DSN)
+app = SentryAsgiMiddleware(app)
