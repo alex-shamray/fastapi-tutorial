@@ -33,3 +33,7 @@ def test_email(
     """
     send_test_email(email_to=email_to)
     return {"msg": "Test email sent"}
+
+
+def health_check():
+    return "OK"
