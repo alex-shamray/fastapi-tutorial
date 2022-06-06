@@ -39,7 +39,7 @@ def test_email(
 
 def health_check(db: Session = Depends(get_db)):
     try:
-        db.execute('select 1')
+        db.execute("select 1")
     except Exception:
         return "Failing"
     else:
